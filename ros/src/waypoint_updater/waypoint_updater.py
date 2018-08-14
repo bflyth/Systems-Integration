@@ -168,7 +168,7 @@ class WaypointUpdater(object):
     # Returns the index of the nearest waypoint ahead of the vehicle
     def nearest_forward_waypoint(self):
         vehicle_pos = [self.vehicle.pose.position.x, self.vehicle.pose.position.y]
-        closest_index = self.waypoints_tree.query(vehicle, 1)[1]
+        closest_index = self.waypoints_tree.query(vehicle_pos, 1)[1]
 
         closest_waypoint = np.array(self.waypoints_2d[closest_index])
         previous_waypoint = np.array(self.waypoints_2d[closest_index - 1])
