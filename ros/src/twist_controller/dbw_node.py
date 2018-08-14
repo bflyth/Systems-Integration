@@ -49,10 +49,6 @@ class DBWNode(object):
                                             ThrottleCmd, queue_size=1)
         self.brake_pub = rospy.Publisher('/vehicle/brake_cmd',
                                          BrakeCmd, queue_size=1)
-
-        # TODO: Create `Controller` object
-        # self.controller = Controller(<Arguments you wish to provide>)
-		
         parameters = {
                     'vehicle_mass':vehicle_mass,
                     'fuel_capacity':fuel_capacity,
@@ -66,8 +62,7 @@ class DBWNode(object):
                     'max_steer_angle':max_steer_angle
         }		
         self.controller = Controller(**parameters)
-
-        # TODO: Subscribe to all the topics you need to
+        
         rospy.Subscriber('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
         rospy.Subscriber('/twist_cmd',TwistStamped,self.twist_cb)
         rospy.Subscriber('/current_velocity',TwistStamped,self.velocity_cb)
@@ -89,14 +84,6 @@ class DBWNode(object):
     def loop(self):
         rate = rospy.Rate(50) # 50Hz
         while not rospy.is_shutdown():
-            # TODO: Get predicted throttle, brake, and steering using `twist_controller`
-            # You should only publish the control commands if dbw is enabled
-            # throttle, brake, steering = self.controller.control(<proposed linear velocity>,
-            #                                                     <proposed angular velocity>,
-            #                                                     <current linear velocity>,
-            #                                                     <dbw status>,
-            #                                                     <any other argument you need>)
-
             if not None in (self.current_vel, self.linear_vel, self.angular_vel):
                 cte = self.get_cte(self.final_waypoints_2d,self.pose)
                 self.throttle, self.brake, self.steering = self.controller.control(self.current_vel, self.dbw_enabled,self.linear_vel,self.angular_vel,cte)
@@ -150,7 +137,7 @@ class DBWNode(object):
                 x_transform.append(x_d *cos_yaw - y_d*sin_yaw)
                 y_transform.append(x_d *sin_yaw + y_d*cos_yaw)
 
-            # Fit a 3rd degree polynomial to the waypoints
+            #fit a 3rd degree polynomial to the waypoints
             degree = 3
             coefficients = np.polyfit(x_transform, y_transform, degree)
 

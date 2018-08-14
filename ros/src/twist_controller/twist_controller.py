@@ -10,8 +10,6 @@ ONE_MPH = 0.44704
 
 class Controller(object):
     def __init__(self, *args, **kwargs):
-        # TODO: Implement
-
         # Retrieve parameters.
         self.vehicle_mass    = kwargs['vehicle_mass']
         self.fuel_capacity   = kwargs['fuel_capacity']
@@ -47,8 +45,7 @@ class Controller(object):
         self.vel_lowpass = LowPassFilter(tau,ts)
 
     def control(self, current_vel, dbw_enabled, linear_vel, angular_vel,cte):
-        # TODO: Change the arg, kwarg list to suit your needs
-        # Return throttle, brake, steer
+        #throttle, brake, steer
 
         if not dbw_enabled:
             # Reset controller so that the integral term does not accumulate.

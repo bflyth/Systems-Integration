@@ -92,7 +92,7 @@ class TLDetector(object):
     def pose_cb(self, msg):
         self.pose = msg
 
-     # Extracts the x and y coordinates of a waypoint
+    #Extracts the x and y coordinates of a waypoint
     def waypoint_xy(self, waypoint):
         position = waypoint.pose.pose.position
         return [position.x, position.y]
@@ -114,7 +114,7 @@ class TLDetector(object):
         """
         self.has_image = True
         self.camera_image = msg
-        #Commented out to test for lag
+        #Comment out to test for lag
         light_wp, state = self.process_traffic_lights()
 
     def get_closest_waypoint(self, x, y):
@@ -161,7 +161,7 @@ class TLDetector(object):
         if(self.pose):
             car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
             print(car_wp_idx)
-        #TODO find the closest visible traffic light (if one exists)
+        
         diff = len(self.waypoints.waypoints)
         #print(self.pose.pose.position.x,self.pose.pose.position.y, car_wp_idx)
    
