@@ -12,8 +12,8 @@ class TLClassifier(object):
             PATH_TO_GRAPH = r'light_classification/model/ssd_udacity/frozen_inference_graph.pb'
 
         self.graph = tf.Graph()
-        self.threshold = .5
-
+        self.threshold = .40
+        
         with self.graph.as_default():
             od_graph_def = tf.GraphDef()
             with tf.gfile.GFile(PATH_TO_GRAPH, 'rb') as fid:
@@ -63,5 +63,5 @@ class TLClassifier(object):
             elif classes[0] == 3:
                 print('YELLOW')
                 return TrafficLight.YELLOW
-
-        return TrafficLight.UNKNOWN
+        else:
+            return TrafficLight.UNKNOWN

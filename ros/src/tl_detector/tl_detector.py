@@ -12,6 +12,7 @@ import cv2
 import yaml
 import math
 from scipy.spatial import KDTree
+import numpy as np
 
 STATE_COUNT_THRESHOLD = 2
 
@@ -57,12 +58,14 @@ class TLDetector(object):
         self.last_state = TrafficLight.UNKNOWN
         self.last_wp = -1
         self.state_count = 0
+        
+        #self.image_list = np.array
 
         #rospy.spin()
         self.ros_spin()
 
     def ros_spin(self):
-        rate = rospy.Rate(20)
+        rate = rospy.Rate(50)
         while not rospy.is_shutdown():
             '''Publish upcoming red lights at camera frequency.
             Each predicted state has to occur `STATE_COUNT_THRESHOLD` number
@@ -133,12 +136,13 @@ class TLDetector(object):
         Returns:
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
         """
+        
         if(not self.has_image):
             self.prev_light_loc = None
             return False
 
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-
+        
         #Get classification
         return self.light_classifier.get_classification(cv_image) 
         #return light.state
@@ -156,7 +160,7 @@ class TLDetector(object):
         stop_line_positions = self.config['stop_line_positions']
         if(self.pose):
             car_wp_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
-            #print(car_wp_idx)
+            print(car_wp_idx)
         #TODO find the closest visible traffic light (if one exists)
         diff = len(self.waypoints.waypoints)
         #print(self.pose.pose.position.x,self.pose.pose.position.y, car_wp_idx)
